@@ -61,6 +61,7 @@ public class Main {
             e.printStackTrace();
         }
         String card="";
+        System.out.println("尝试看看能不能集成成功");
         int id=0;
         try {
             Call<open_return> call = request.getCall(token);
