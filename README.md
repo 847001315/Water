@@ -1,41 +1,68 @@
 # Water
 # README
 
- 这是一个包含十三水最优解的算法和网络发送请求的项目
+## 这是一个包含十三水最优解的算法和网络发送请求的项目
 
-    网络请求部分使用了 Re
-    标题(title)
-    一个标题应该很清晰地表达这是一个什么项目。通常来说，它会是项目名称。
+### 技术栈(Technologies)
+    Java 8
+    IDE IJ 2019 
+    
+### 项目类说明
+    Main 负责调配全局，包括开启网络申请
+    SSS  负责得到一个指定后墩的最优解
+    API  负责网络申请的方式
+    others 负责接收网络请求返回体或者发送题
+### 启动(Launch or Setup)
+    在build.gradle中添加依赖：
+    implementation 'com.squareup.retrofit2:retrofit:2.6.2'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.1.0'
+    testCompile 'junit:junit:4.12'
+    
+    然后编译之后，项目如果能够正常运行，说明配置成功
+### 功能特性(Features)
+    当前仅支持得到一副牌后输出最优解
 
-介绍(introduction)
-介绍应该短小精悍，2、3句话就可以讲明白这个项目的目的以及解决的问题。
+### 代码示例(Code Examples)
+    在添加完依赖库之后，可以建立一个接口。
+    接口中写上：
+    /*登陆*/
+    @POST("auth/login")
+    Call<login_return> getCall(@Body login k);
+    
+    然后在你需要的地方（主函数）写上：
+    Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://api.shisanshui.rtxux.xyz/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        API request = retrofit.create(API.class);
+        login k = new login("mytest02","test8");
+        
+        try {
+            Call<login_return> call = request.getCall(k);
+            Response<login_return> response = call.execute();
 
-技术栈(Technologies)
-这是程序员最关心的部分之一。它们是这个项目的地基，有了完整且正确的它们才能构建出整个项目，而不是一启动就无数报错。所以我们理应把项目的语言、依赖和对应的版本写下来。比如:
+            String result = response.body().getData().token;
+            //ghhh[0] =result;
+            token=result;
+            System.out.println(result);
+            System.out.println(response.body().getData().user_id);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        如果可以成功输出，则说明配置成功。
 
-Java 8
-Spring Boot 2.x
-easyexcel 1.1.0
-启动(Launch or Setup)
-如何运行也是开发者十分关心的部分。我们不能仅仅只写下一行启动命令，比如npm run start，通常来说我们还需要告诉使用者如何安装依赖、如何修改配置甚至初始化数据库。你写得越详细，别人就越少吐槽。
+### 项目状态（Status）
+    已经完成，不过可能会有少许改动
 
-目录(Table of contents)
-在篇幅较长、内容较多的情况下，目录提供了一个各部分内容的快捷入口，而不是无止尽地滑滚轮。我们可以用markdown提供的便捷语法，创建一个简单的目录。
+### 来源(Sources) 参考资料
+    网络请求包：Retrofit2的使用：https://www.jianshu.com/p/a3e162261ab6?tdsourcetag=s_pcqq_aiomsg
 
-功能特性(Features)
-通过阅读这部分，人们将迅速了解该项目所支持的功能和特性。另外我们也应当将TODO List写上去，以供自己规划项目和他人了解它的未来发展方向。
+### 外部链接(Links) 助教的API
+    http://docs.shisanshui.rtxux.xyz/
 
-代码示例(Code Examples)
-这对一些工具或者库依赖项目来说是十分重要的。因为通常来说人们更愿意直接复制粘贴来测试他们需要的效果。
-
-项目状态（Status）
-项目处于开发阶段还是已经完成，是已经停止维护还是迁移到了新的项目？这值得告诉读者。
-
-来源(Sources)
-我们在开发某项功能，或者解决某个bug的过程中，有的时候会查阅一些文档、教程或者从技术论坛寻找现成的解决方案（比如stackoverflow、掘金等）。将其中你认为对自己或他人有价值的一部分记录在案，写下它们的描述和链接。我认为在未来某个时间点，它可能会帮助到你或者别人。
-
-外部链接(Links)
-对于公司内部项目而言，可能会有项目管理平台地址（如tapd）、接口文档地址； 对于开源项目也可能有对应的完整文档、教程、博客等。
-
-联系(Contact)
-主要是记录作者本人或者开发团队的联系方式。
+### 联系(Contact)
+    菜鸡不配有姓名
