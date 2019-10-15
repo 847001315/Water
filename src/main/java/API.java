@@ -2,7 +2,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-
+// no package declaration
 public interface API {
     /*登陆*/
     @POST("auth/login")
