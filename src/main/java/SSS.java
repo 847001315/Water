@@ -149,10 +149,9 @@ public class SSS {
         //
 
         teshu =false;
-        int tong3=0,tong5=0,tong8=0;
-        int end1=0;
-        int end2=0;
-        int end3=0;
+        int tong3=0;
+         int   tong5=0;
+         int   tong8=0;
         for(int i = 0 ; i<4;i++){
             for(int j = 2;j<15;j++){
                 int m=0;//用于一条龙的
@@ -207,10 +206,11 @@ public class SSS {
         //三顺子和同花顺放在外面判断吧。
         int btidai[];
         btidai=b.clone();
-        if(teshu==false){
+        if(!teshu){
             //三顺子一定只会有一个断点。先找最大点。
             boolean sanshunzi=true;
-            int m = 0,max=0;
+            int m = 0
+                int max=0;
             for(int i = 0 ;i <2;i++){
                 m=0;
                 for(int j =14;j>=2;j++){
@@ -229,7 +229,7 @@ public class SSS {
                         break;
                     }
                 }
-            if(sanshunzi==false){
+            if(!sanshunzi){
                 break;
             }
             }
@@ -288,17 +288,17 @@ public class SSS {
                 }
 
                 //在这里把那些判断变量改为正的。
-                if(mid_hulu == true){
+                if(mid_hulu){
                     mid_hulu=false;
-                }else if(mid_tonghua==true){
+                }else if(mid_tonghua){
                     mid_tonghua=false;
-                }else if (mid_shunzi==true){
+                }else if (mid_shunzi){
                     mid_shunzi=false;
-                }else if(mid_three==true){
+                }else if(mid_three){
                     mid_three=false;
-                }else if(mid_shuangdui==true){
+                }else if(mid_shuangdui){
                     mid_shuangdui=false;
-                }else if(mid_duizi== true){
+                }else if(mid_duizi){
                     mid_duizi=false;
                 }
             }
@@ -402,25 +402,25 @@ public class SSS {
             mid_zapai=true;
         }
         zhongdunleixinggeshu=0;
-        if(mid_hulu==true){
+        if(mid_hulu){
             zhongdunleixinggeshu++;
         }
-        if(mid_tonghua==true){
+        if(mid_tonghua){
             zhongdunleixinggeshu++;
         }
-        if(mid_shunzi==true){
+        if(mid_shunzi){
             zhongdunleixinggeshu++;
         }
-        if(mid_three==true){
+        if(mid_three){
             zhongdunleixinggeshu++;
         }
-        if(mid_shuangdui==true){
+        if(mid_shuangdui){
             zhongdunleixinggeshu++;
         }
-        if(mid_duizi==true){
+        if(mid_duizi){
             zhongdunleixinggeshu++;
         }
-        if(mid_zapai==true){
+        if(mid_zapai){
             zhongdunleixinggeshu++;
         }
 
