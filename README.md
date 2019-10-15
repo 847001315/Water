@@ -10,8 +10,15 @@
     Main 负责调配全局，包括开启网络申请
     SSS  负责得到一个指定后墩的最优解
     API  负责网络申请的方式
-    others 负责接收网络请求返回体或者发送题
-### 启动(Launch or Setup)
+    其他负责接收网络请求返回体或发送题
+### 前端exe文件使用说明
+    沙漠十三水透析文件注意事项
+    直接下载exe文件打开即可，要用谷歌下载，用的是Chrome内核
+    1.要登陆后才可看到历史战绩和开始界面的牌，要看区别可以先不登录点一次再登陆点一次
+    2.恢复后令牌无效则查询不了历史战绩
+    3.exe执行比较慢如果出的慢请耐心等待
+    4.github下载文件比较慢请耐心等待
+### 启动（启动或设置）
     在build.gradle中添加依赖：
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.2'
