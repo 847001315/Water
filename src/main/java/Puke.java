@@ -1,5 +1,5 @@
 public class Puke {
-    int id;
+    private int id;
     public String[] card={""};
     public Puke(double a[],int id){
         this.id=id;
