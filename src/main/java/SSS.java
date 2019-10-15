@@ -20,36 +20,36 @@ public class SSS {
                 //是：《同花顺，炸弹，葫芦，同花，顺子，三条，两对，对子，空》 15-23，累加算法，除非 同花或者顺子等于2 否则前墩没有顺子和同花的说法。
                 //是：《  15 ， 16 ，17 ， 18 ， 19， 20 ， 21 ， 22 ，23》
                 //再把26作为得分的位置吧；
-    int result_arr;
-    int number_result;
-    int select_hou;
-    int select_mid;
-    int score_now;
-    int score_best;
-    boolean mid_hulu;
-    boolean mid_tonghua;
-    boolean mid_shunzi;
-    boolean mid_shuangdui;
-    boolean mid_duizi;
-    boolean mid_three;
-    boolean mid_zapai=false;
+    private int result_arr;
+    private int number_result;
+    private int select_hou;
+    private int select_mid;
+    private int score_now;
+    private int score_best;
+    private boolean mid_hulu;
+    private boolean mid_tonghua;
+    private boolean mid_shunzi;
+    private boolean mid_shuangdui;
+    private boolean mid_duizi;
+    private boolean mid_three;
+    private boolean mid_zapai=false;
     int score_arr=0;
     public int max_j=0;
-    int score_tonghuashun=100; //同花顺的得分； 100
-    int score_zhadan=80;//炸弹的得分  80
-    int score_hulu=20;//葫芦的得分  20
-    int score_tonghua=15;//同花的得分  15
-    int score_shunzi=10;//顺子的得分  10
-    int score_santiao=8;//三条的得分 8
-    int score_liangdui=6;//两对的得分 6
-    int score_duizi=3;//对子的得分 3
-    int xiadun_bili=1;//下顿的比例 1
-    double zhongdun_bili=1.5;//中墩的比例 1.5
-    int shangdun_bili=2;//上墩的比例 2
+    private int score_tonghuashun=100; //同花顺的得分； 100
+    private int score_zhadan=80;//炸弹的得分  80
+    private int score_hulu=20;//葫芦的得分  20
+    private int score_tonghua=15;//同花的得分  15
+    private int score_shunzi=10;//顺子的得分  10
+    private int score_santiao=8;//三条的得分 8
+    private int score_liangdui=6;//两对的得分 6
+    private int score_duizi=3;//对子的得分 3
+    private int xiadun_bili=1;//下顿的比例 1
+    private double zhongdun_bili=1.5;//中墩的比例 1.5
+    private  int shangdun_bili=2;//上墩的比例 2
     //构造函数，负责初始化。
-    int zhongdunleixinggeshu=0;//中墩中有的类型个数
-    boolean daoshui=false;
-    int xiadunguanjian=0;
+    private int zhongdunleixinggeshu=0;//中墩中有的类型个数
+    private  boolean daoshui=false;
+    private  int xiadunguanjian=0;
     boolean teshu=false;
     public SSS(String g, int sx){
         int t = 0;
