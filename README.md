@@ -1,6 +1,6 @@
 # Water
 [![Build Status](https://travis-ci.org/847001315/Water.svg?branch=master)](https://travis-ci.org/847001315/Water)
-https://camo.githubusercontent.com/613da2fed852990d8f1cb62bf2c84b6086b0376e/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f436f7665726167652d39372532352d627269676874677265656e
+
 ## 这是一个包含十三水最优解的算法和网络发送请求的项目
 
 ### 编译
