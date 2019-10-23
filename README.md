@@ -1,4 +1,5 @@
 # Water
+![Image text](https://img.shields.io/badge/language-java-blue)	
 ![Image text](https://img.shields.io/badge/build-passing-brightgreen)	
 ![Image text](https://img.shields.io/badge/code%20quality-A-brightgreen)	
 
