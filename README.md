@@ -1,6 +1,6 @@
 # Water
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/43f1512c85864978a660718822ab35cc)](https://www.codacy.com/manual/847001315/Water?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=847001315/Water&amp;utm_campaign=Badge_Grade)
 ![Image text](https://img.shields.io/badge/build-passing-green)	
+![Image text](https://img.shields.io/badge/code%20quality-A-brightgreen)	
 
 ## 这是一个包含十三水最优解的算法和网络发送请求的项目
 
