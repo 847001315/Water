@@ -5,16 +5,16 @@ public class SSS {
     //特殊牌型 同花顺 炸弹的个数。
     //存储牌组
     //遇到的问题有很多，其中最明显的是 六七张同花和 六七张顺子的问题。
-    int fuzetype;
+    private int fuzetype;
     int ab[][];
-    int a[];//行
-    int b[];//列
-    int hulu;
-    int tonghua;
-    int shunzi;
-    int duizi;
-    int danpai;
-    int shunxu;
+    private int a[];//行
+    private int b[];//列
+    private int hulu;
+    private int tonghua;
+    private int shunzi;
+    private int duizi;
+    private int danpai;
+    private int shunxu;
     int gui=0;
     double result[][];//返回的是这个数组。结果数组+后中上的类型计算。从15-23
                 //是：《同花顺，炸弹，葫芦，同花，顺子，三条，两对，对子，空》 15-23，累加算法，除非 同花或者顺子等于2 否则前墩没有顺子和同花的说法。
@@ -26,6 +26,8 @@ public class SSS {
     private int select_mid;
     private int score_now;
     private int score_best;
+    private boolean mid_wudu;
+    private boolean mid_zhadan;
     private boolean mid_hulu;
     private boolean mid_tonghua;
     private boolean mid_shunzi;
@@ -50,7 +52,7 @@ public class SSS {
     private int zhongdunleixinggeshu=0;//中墩中有的类型个数
     private  boolean daoshui=false;
     private  int xiadunguanjian=0;
-    boolean teshu=false;
+    private boolean teshu=false;
     public SSS(String g, int sx){
         int t = 0;
         ab=new int[4][15];
@@ -123,10 +125,10 @@ public class SSS {
     public void start(int type){
         fuzetype=type;
         ;//负责这个类的顺序控制函数
-        special_pai();//判断了特殊牌，以后可以设定如果特殊牌就返回true，然后就直接特殊牌爆牌；
+        //special_pai();//判断了特殊牌，以后可以设定如果特殊牌就返回true，然后就直接特殊牌爆牌；
 
         judge_type(type);//这里面应该写多个循环
-        printsss();
+        //printsss();
     }
     /**  代码的核心思想就是，现确定后墩类型，再去进行多种，中墩与后墩我写的算法暂时不一样，我想直接就考虑五种情况 ，分别是 **
      **  葫芦同花顺子两对或者对子。因为这样就不用考虑同花和顺子交叉的问题了，唯一的问题就考虑一下是否存在同类型倒水的问题 **/
@@ -149,20 +151,24 @@ public class SSS {
         //
 
         teshu =false;
-        int tong3=0;
-         int   tong5=0;
-         int   tong8=0;
+        int tong3=0,tong5=0,tong8=0;
+        int end1=0;
+        int end2=0;
+        int end3=0;
         for(int i = 0 ; i<4;i++){
+            int quanda=0;
+            int m=0;//用于一条龙的
+            int k=0;//用于十二皇族和 四怪冲三
+            int k2=0;//用于三分天下
+            int kdui=0;
             for(int j = 2;j<15;j++){
-                int m=0;//用于一条龙的
-                int k=0;//用于十二皇族和 四怪冲三
-                int k2=0;//用于三分天下
-                int quanda=0;//用于全打或者全小。
-                int kdui=0;
+
+                //用于全打或者全小。
+
                 if(b[j]>=1){
                     m++;
                 }
-                if(b[j]==2){
+                if(b[j]>=2){
                     kdui++;
                 }
                 if(b[j]==0 && j<8){
@@ -174,12 +180,13 @@ public class SSS {
 
                 if(b[j]==4){
                     k2++;
-                }if(m==13 || k ==4 || k2==3 || quanda==6 ||quanda==0 ||(k==2 && kdui==3) ||(k==1 && kdui==5) || kdui==6){
-                    teshu = true;
-                }
 
 
             }
+            }if(m==13 || k ==4 || k2==3   || kdui==6){
+                teshu = true;
+            }
+
             if(a[i]==3){
                 if(tong3==0){
                     tong3=1;
@@ -206,14 +213,14 @@ public class SSS {
         //三顺子和同花顺放在外面判断吧。
         int btidai[];
         btidai=b.clone();
-        if(!teshu){
+        if(teshu==false){
             //三顺子一定只会有一个断点。先找最大点。
             boolean sanshunzi=true;
-            int m = 0
-                int max=0;
+            int m = 0;
+                    int max=0;
             for(int i = 0 ;i <2;i++){
                 m=0;
-                for(int j =14;j>=2;j++){
+                for(int j =14;j>=2;j--){
                     if(btidai[j]>=1){
                         max=j;
                         break;
@@ -229,7 +236,7 @@ public class SSS {
                         break;
                     }
                 }
-            if(!sanshunzi){
+            if(sanshunzi==false){
                 break;
             }
             }
@@ -274,13 +281,18 @@ public class SSS {
             for(int i=0 ;i <abclone2.length;i++){
                 abclone2[i]=ab[i].clone();
             }
-            for(int y=0;y<zhongdunleixinggeshu;y++){
-                for(int i=0 ;i <abclone2.length;i++){
-                    ab[i]=abclone2[i].clone();
-                }
-                b=bclone2.clone();
-                a=aclone2.clone();
+            if(zhongdunleixinggeshu==0){
+                number_result++;
+            }
+            for(int y=0;y<zhongdunleixinggeshu;y++){//这是执行同一个后墩
+
                 for (int t=0;t<select_mid;t++){
+                    for(int i=0 ;i <abclone2.length;i++){
+
+                        ab[i]=abclone2[i].clone();
+                    }
+                    b=bclone2.clone();
+                    a=aclone2.clone();
                     //这个循环就是把 比如说 中墩是双对  的所以组合都弄出来。
                     get_zhongdun();//将中墩的卡片一一放进result数组上,再加个判断，如果number_result>0 ，则复制前面的数组。
                     compare_score();//将前墩的卡片放入，并且给其判断，再算得分。10.4还未实现。这么说来，基本可以说必须要用二维数组了。
@@ -288,17 +300,21 @@ public class SSS {
                 }
 
                 //在这里把那些判断变量改为正的。
-                if(mid_hulu){
+                if (mid_wudu==true){
+                    mid_wudu=false;
+                }else if (mid_zhadan==true){
+                    mid_zhadan=false;
+                }else if(mid_hulu == true){
                     mid_hulu=false;
-                }else if(mid_tonghua){
+                }else if(mid_tonghua==true){
                     mid_tonghua=false;
-                }else if (mid_shunzi){
+                }else if (mid_shunzi==true){
                     mid_shunzi=false;
-                }else if(mid_three){
+                }else if(mid_three==true){
                     mid_three=false;
-                }else if(mid_shuangdui){
+                }else if(mid_shuangdui==true){
                     mid_shuangdui=false;
-                }else if(mid_duizi){
+                }else if(mid_duizi== true){
                     mid_duizi=false;
                 }
             }
@@ -342,6 +358,12 @@ public class SSS {
     }
 
     private void panduanleixing(){
+        for(int j = 0 ;j<15;j++){
+            if(b[j]==4){
+                mid_zhadan=true;
+                gui++;
+            }
+        }
 
         //判断葫芦
         for(int j =0;j<15;j++){
@@ -402,25 +424,28 @@ public class SSS {
             mid_zapai=true;
         }
         zhongdunleixinggeshu=0;
-        if(mid_hulu){
+        if(mid_zhadan==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_tonghua){
+        if(mid_hulu==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_shunzi){
+        if(mid_tonghua==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_three){
+        if(mid_shunzi==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_shuangdui){
+        if(mid_three==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_duizi){
+        if(mid_shuangdui==true){
             zhongdunleixinggeshu++;
         }
-        if(mid_zapai){
+        if(mid_duizi==true){
+            zhongdunleixinggeshu++;
+        }
+        if(mid_zapai==true){
             zhongdunleixinggeshu++;
         }
 
@@ -461,7 +486,67 @@ public class SSS {
         }
         result_arr=5;//让下一个数组从5开始。
         //在这个if语句里面记得给数组十几赋值。
-        if(mid_hulu){//17
+        if(mid_zhadan){
+            for(int j =14;j>0;j--){
+                if(b[j]==4){
+                    for(int i=0;i<4;i++){
+                        result[number_result][result_arr]=(i+1)*100+j;
+                        result_arr++;
+                        ab[i][j]=0;
+                        a[i]--;
+                        b[j]--;
+                    }
+                    break;
+                }
+
+            }
+            int k =0;
+            for(int j = 0;j<15;j++){
+                //第一种，找到了单排；
+                //第二种，全是大于一张牌的。
+                if(b[j]==1){
+                    k++;
+                    for(int i=0;i<4;i++){
+                        if(ab[i][j]==1){
+                            result[number_result][result_arr]=(i+1)*100+j;
+                            result_arr++;
+                            ab[i][j]=0;
+                            a[i]--;
+                            b[j]--;
+                            break;
+                        }
+
+                    }
+                }
+                if(k==1){
+                    break;
+                }
+            }
+            if(k!=1){
+                for(int j = 2;j<15;j++){
+                    if(b[j]==2){
+                        k++;
+                        for(int i=0;i<4;i++){
+                            if(ab[i][j]==1){
+                                result[number_result][result_arr]=(i+1)*100+j;
+                                result_arr++;
+                                ab[i][j]=0;
+                                a[i]--;
+                                b[j]--;
+                                break;
+                            }
+
+                        }
+                    }
+                    if(k==1){
+                        break;
+                    }
+                }
+
+            }
+            result[number_result][16]++;
+        }
+        else if(mid_hulu){//17
             //关于葫芦的判定。所以先注意一下有没有倒水。应该是不会倒水
             //既然存在葫芦，就说明，从后往前找，找得到3个，并且，选择最小的对子，当成附庸,所以不用考虑是否select-mid
             for(int j =14;j>0;j--){
@@ -525,15 +610,19 @@ public class SSS {
 
             }
 
-
+            int sks=0;
             for(int j = 0 ;j<15;j++){
                 if(quchu!=j){
                     if(ab[i][j]==1){
+                        sks++;
                         ab[i][j]=0;
                         b[j]--;
                         result[number_result][result_arr]=(i+1)*100+j;
                         result_arr++;
                     }
+                }
+                if(sks==5){
+                    break;
                 }
 
             }
@@ -649,6 +738,25 @@ public class SSS {
                     break;
                 }
             }
+            if(m!=2){
+                for (int j =0 ;j <15;j++){
+                    if(b[j]>=1){
+                        for(int i=0;i<4;i++){
+                            if(ab[i][j]==1){
+                                result[number_result][result_arr]=(i+1)*100+j;
+                                result_arr++;
+                                ab[i][j]=0;
+                                a[i]--;
+                                b[j]--;
+                            }
+                        }
+                        break;
+                    }
+
+
+
+                }
+            }
 
             //加上类型值
             result[number_result][20]++;
@@ -656,6 +764,12 @@ public class SSS {
 
             //固定取最小的两个对子为双对。我觉得这样比较好就是了，这里还可以再改。
             int g=0;
+            int lg=0;
+            for(int j = 2;j<15;j++){
+                if(b[j]==2){
+                    lg++;
+                }
+            }
             for(int j=0;j<15;j++){
                 if(b[j]==2){
                     g++;
@@ -676,18 +790,37 @@ public class SSS {
             }
 
             //把最小的单赋值给最中间的那个
+            int numkc=0;
             for(int j =0;j<15 ;j++){
-                if(b[j]==1){
-                    for(int i=0;i<4;i++){
-                        if(ab[i][j]==1){
-                            result[number_result][result_arr]=(i+1)*100+j;
-                            result_arr++;
-                            ab[i][j]=0;
-                            a[i]--;
+                if(b[j]==1 ){
+                    numkc++;
+                        for(int i=0;i<4;i++){
+                            if(ab[i][j]==1){
+                                result[number_result][result_arr]=(i+1)*100+j;
+                                result_arr++;
+                                ab[i][j]=0;
+                                a[i]--;
+                            }
                         }
+                        b[j]--;
+                        break;
+                }
+            }
+            if(numkc==0){
+                for(int j =0;j<15;j++){
+                    if(b[j]>=1 ){
+                        numkc++;
+                        for(int i=0;i<4;i++){
+                            if(ab[i][j]==1){
+                                result[number_result][result_arr]=(i+1)*100+j;
+                                result_arr++;
+                                ab[i][j]=0;
+                                a[i]--;
+                            }
+                        }
+                        b[j]--;
+                        break;
                     }
-                    b[j]--;
-                    break;
                 }
             }
 
@@ -790,6 +923,37 @@ public class SSS {
         }else {
             daoshui=true;
         }
+        if(result[number_result][19]==2){
+            double k4=result[number_result][4]%100;
+            double k5=result[number_result][5]%100;
+            if(k4<k5){
+                daoshui=true;
+            }
+        }
+        if(result[number_result][18]==2){
+            //双同花
+            double k4=(int )result[number_result][4]%100;
+            double k9 = result[number_result][9]%100;
+
+            for(int lml=4;lml>=0;lml--){
+                k9=(int )result[number_result][lml+5]%100;
+                k4=(int )result[number_result][lml]%100;
+                if(k9>k4){
+                    //说明倒水。然后我要逆转乾坤
+                    for(int kg=0;kg<5;kg++){
+                        double dtdai;
+                        dtdai=result[number_result][kg];
+                        result[number_result][kg]=result[number_result][kg+5];
+                        result[number_result][kg+5]=dtdai;
+                    }
+                break;
+                }else if(k4>k9){
+                    break;
+                }
+
+            }
+        }
+
     }
     //前墩识别
     private void compare_score(){//前墩识别
@@ -799,7 +963,7 @@ public class SSS {
         * */
         int g=0;//判断是否是单排
         int zhadankk=0;
-        if(result[number_result][16]==1){
+        if(result[number_result][16]>=1){
             zhadankk=1;
         }
         int muqian=0;
@@ -871,7 +1035,7 @@ public class SSS {
                 result[number_result][22]++;
                 if(zhadankk==1){
                     for(int q=2;q<15;q++){
-                        if(b[q]==1){
+                        if(b[q]>=1 && q!=j){
                             for(int z=0;z<4;z++){
                                 if(ab[z][q]==1){
                                     result[number_result][4]=(z+1)*100+q;
@@ -889,21 +1053,26 @@ public class SSS {
                 break;
             }
         }
-
+        int sks=0;
         //是将多余的放入数组之中。
-        for(j =0;j<15 ; j++){
+        for(j =14;j>1 ; j--){
             if(b[j]>0){
                 for(i=0;i<4;i++){
-                    if(ab[i][j]==1){
-
-                            result[number_result][result_arr]=(i+1)*100+j;
-                            result_arr++;
-
+                    if(ab[i][j]==1 ){
+                    if(sks==3){
+                        result[number_result][4]=(i+1)*100+j;
+                    }else {
+                        result[number_result][result_arr]=(i+1)*100+j;
+                        result_arr++;
+                    }
                         ab[i][j]=0;
                         a[i]--;
                         b[j]--;
+                        sks++;
                     }
                 }
+
+
 
             }
         }
@@ -928,7 +1097,22 @@ public class SSS {
                 daoshui=true;
             }
         }
-
+        if(zhadankk==1 && result[number_result][4]==0){
+            for(j=0;j<15;j++){
+                if(b[j]==1){
+                    for(i=0;i<4;i++){
+                        if(ab[i][j]==1){
+                            result[number_result][4]=(i+1)*100+j;
+                            ab[i][j]=0;
+                            a[i]--;
+                            b[j]--;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+        }
         get_score(result[number_result]);
 
     }
@@ -1064,6 +1248,7 @@ public class SSS {
         int m=0;
         int heng=0,end=0;
         boolean cunzai=false;
+        int gcg=0;
         for(int i =0;i<4;i++){
             if(a[i]>=5){
                 for(int j =14;j>=2;j--){
@@ -1073,6 +1258,12 @@ public class SSS {
                         m=0;
                     }
                     if(m==5){
+                        gcg++;
+                        if(gcg==2){
+                            if(end>j+4){
+                                break;
+                            }
+                        }
                         heng=i;
                         end=j+4;
                         cunzai=true;
@@ -1080,6 +1271,7 @@ public class SSS {
                     }
                 }
             }
+            m=0;
         }
         //当的确存在
         if(cunzai){
@@ -1226,8 +1418,9 @@ public class SSS {
             int hulue7=-1;
             int hulue8=-1;
             int hulue9=-1;
+            int lhc=0;
             if(a[i]>=5 ){
-                if(a[i]>=7 && a[i]<=9){
+                if( a[i]!=5 &&a[i]>=7 && a[i]<=9){
 
                     for(int j =14;j>=2;j--){
                         if(ab[i][j]==1){
@@ -1240,34 +1433,69 @@ public class SSS {
                                 }else if(hulue9==-1){
                                     hulue9=j;
                                 }
-
+                                lhc++;
                             }
+                        }
+                        if(lhc==a[i]-5){
+                            break;
                         }
                     }
                 }
                 //假设ai=8
                 //直接就把所有的行都吃了
                 //首先如果等于的话，那么定义一个m
+                int  suanshu=0;
+                int sum=1;
+                suanshu=a[i]-lhc;
+                if(suanshu<5){
+                    for(int mlm=0;;){
+                        if(hulue9!=-1){
+                            hulue9=-1;
+                        }else if(hulue8!=-1){
+                            hulue8=-1;
+                        }else if(hulue7!=-1){
+                            hulue7=-1;
+                        }
+                        mlm++;
+                        if(mlm+suanshu==5){
+                            break;
+                        }
+                    }
+                }
+                for(int gc =suanshu;gc>0;gc--){
+                    sum=sum*gc;
+                }
                 if(a[i]!=5)
-                select_hou=6;
+                select_hou=sum/120;
+                if(select_hou>=6){
+                    select_hou=6;
+                }
+                int kmk=0;
+                int lol=0;
                 for(int j =0 ;j < 15;j++){
                     if(ab[i][j]>0){
                         g++;
+                        lol++;
+                        if(select_hou==1){
+                            g=0;
+                        }
                         if(a[i]!=5){
-                            if(g!=p && g!=hulue7){
+                            if(g!=p && j!=hulue7 && j!=hulue8 && j!=hulue9 ){
                                 ab[i][j]--;
                                 b[j]--;
                                 result[number_result][result_arr]=(i+1)*100+j;
                                 result_arr++;
+                                kmk++;
                             }
-                            if(g==6)
-                                break;
+                                if(kmk==5)
+                                    break;
+
                         }else {
                             ab[i][j]--;
                             b[j]--;
                             result[number_result][result_arr]=(i+1)*100+j;
                             result_arr++;
-                            if(g==5)
+                            if(lol==5)
                                 break;
                         }
 
@@ -1434,7 +1662,7 @@ public class SSS {
         //如果只有三对的话，那就是第一带第三。
         int number=0;
         int xiao[];
-        xiao=new int[6];
+        xiao=new int[7];
         for(int j=0;j<15;j++){
             if(b[j]>=2){
                 number++;
@@ -1453,22 +1681,32 @@ public class SSS {
             }
 
         }else if(number==4){
-            if(xiao[1]==xiao[2]-1){
-                judge_shuangdui_quchu(xiao[2],xiao[1]);
+            if(xiao[3]==xiao[4]-1){
+                judge_shuangdui_quchu(xiao[4],xiao[3]);
             }else if (xiao[2]==xiao[3]-1){
                 judge_shuangdui_quchu(xiao[3],xiao[2]);
-            }else if(xiao[3]==xiao[4]-1){
-                judge_shuangdui_quchu(xiao[4],xiao[3]);
+            }else if(xiao[1]==xiao[2]-1){
+                judge_shuangdui_quchu(xiao[2],xiao[1]);
             }else{
                 //取出 第三第四
                 judge_shuangdui_quchu(xiao[4],xiao[1]);
             }
 
         }else if (number==5){
+            if(xiao[4]==xiao[5]-1){
+                judge_shuangdui_quchu(xiao[5],xiao[4]);
+            }else if(xiao[3]==xiao[4]-1){
+                judge_shuangdui_quchu(xiao[4],xiao[3]);
+            }else if (xiao[2]==xiao[3]-1){
+                judge_shuangdui_quchu(xiao[3],xiao[2]);
+            }else if(xiao[1]==xiao[2]-1){
+                judge_shuangdui_quchu(xiao[2],xiao[1]);
+            }else {
+                //取出第二和最后
+                judge_shuangdui_quchu(xiao[4],xiao[1]);
+            }
 
-            //取出第二和最后
-            judge_shuangdui_quchu(xiao[4],xiao[1]);
-        }else if(number==2){
+        }else if(number==2 || number==6){
             judge_shuangdui_quchu(xiao[2],xiao[1]);
         }
 
