@@ -1,5 +1,5 @@
 # Water
-![Image text](https://img.shields.io/badge/build-passing-green)	
+![Image text](https://img.shields.io/badge/build-passing-brightgreen)	
 ![Image text](https://img.shields.io/badge/code%20quality-A-brightgreen)	
 
 ## 这是一个包含十三水最优解的算法和网络发送请求的项目
