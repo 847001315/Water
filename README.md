@@ -2,9 +2,10 @@
 [![Build Status](https://travis-ci.org/847001315/Water.svg?branch=master)](https://travis-ci.org/847001315/Water)
 ## 这是一个包含十三水最优解的算法和网络发送请求的项目
 
-### 技术栈(Technologies)
-    Java 8
-    IDE IJ 2019 
+### 编译
+    将项目用gradle导入IDE中，即可运行。
+### 运行环境
+    jdk 1.8以上，windows系统。
     
 ### 项目类说明
     Main 负责调配全局，包括开启网络申请
